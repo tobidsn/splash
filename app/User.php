@@ -34,4 +34,14 @@ class User extends Authenticatable
         $this->save();
         return $this->api_token;
     }
+
+    public function following()
+    {
+        return $this->belongsToMany('App\User', 'followers', 'follower_user_id', 'user_id')->withTimestamps();
+    }
+
+    public function isFollowing(User $user)
+    {
+        return !is_null($this->following()->where('user_id', $user->id)->first());
+    }
 }
