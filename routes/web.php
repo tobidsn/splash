@@ -18,9 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/following', 'ProfileController@following')->name('following');
     Route::post('/follows', 'UserController@follows');
     Route::post('/unfollows', 'UserController@unfollows');
 });
 
-Route::get('/{username}', 'ProfileController@show');
+Route::get('/{username}', 'ProfileController@show')->name('profile');
+Route::get('/{username}/followers', 'ProfileController@followers')->name('followers');
+

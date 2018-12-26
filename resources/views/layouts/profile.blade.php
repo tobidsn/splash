@@ -106,21 +106,23 @@
 
                   <ul class="nav text-center"> 
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link {{ !Route::currentRouteNamed('profile') ?: 'active' }}" href="{{ url('/' . $user->username) }}">
                             <div class="text-uppercase">Tweets</div>
                             <div>0</div>
                         </a>
-                    </li>                     
+                    </li>
+                    @if ($is_edit_profile)
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link {{ !Route::currentRouteNamed('following') ?: 'active' }}" href="{{ url('/following') }}">
                             <div class="text-uppercase">Following</div>
-                            <div>0</div>
+                            <div>{{ $following_count }}</div>
                         </a>
-                    </li>                
+                    </li>
+                    @endif                
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link {{ !Route::currentRouteNamed('followers') ?: 'active' }}" href="{{ url('/' . $user->username . '/followers') }}">
                             <div class="text-uppercase">Followers</div>
-                            <div>0</div>
+                            <div>{{ $followers_count }}</div>
                         </a>
                     </li>
                   </ul>
