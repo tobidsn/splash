@@ -27,30 +27,8 @@
                             @endif
                         </form>
                         
-                        <template v-for="tweet in items">
-                            <div class="list-group-item">
-                                <h4 class="list-group-item-heading">@{{ tweet.author.name }} &#64;@{{ tweet.author.username }}</h4>
-                                <p>@{{ tweet.body }}</p>
-                                <div class="list-group-item-text panel panel-default" v-if=tweet.link>
-                                    <a v-bind:href="tweet.link.url" target="_blank" style="text-decoration: none;">
-                                        <div class="media">
-                                            <div class="media-middle">
-                                                <img class="media-object center-block" style="max-width: 100%" :src="tweet.link.cover">
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="media-body panel-body">
-                                            <h3 class="media-heading">
-                                                @{{ tweet.link.title }}
-                                            </h3>
-                                            <div>
-                                                @{{ tweet.link.description }}
-                                            </div>
-                                        </div>
-                                    </a> 
-                                </div>
-                                <p class="list-group-item-text">@{{ tweet.created_at }}</p>
-                            </div>
+                        <template v-for="item in items">
+                            <tweetcomponent :tweet="item"></tweetcomponent>
                         </template>
                     </div>
                 </div>
@@ -65,6 +43,36 @@
 
 <script type="text/javascript">
     var page = 1;
+
+    Vue.component('tweetcomponent', {
+      name: 'tweetcomponent',
+      props: ['tweet'],
+      template: '\
+        <div v-if="tweet.author" class="list-group-item">\
+            <h4 class="list-group-item-heading">@{{ tweet.author.name }}</h4>\
+            <p v-if="tweet.link && tweet.link.short_url">@{{ tweet.link.url }}</p>\
+            <p v-else>@{{ tweet.body }}</p>\
+            <div class="list-group-item-text panel panel-default" v-if="tweet.link">\
+                <a v-bind:href="tweet.link.short_url || tweet.link.url" target="_blank" style="text-decoration: none;">\
+                    <div class="media">\
+                        <div class="media-middle">\
+                            <img class="media-object center-block" style="max-width: 100%;" v-bind:src="tweet.link.cover">\
+                        </div>\
+                    </div>\
+                    <div class="media-body panel-body">\
+                        <h3 class="media-heading">\
+                            @{{ tweet.link.title }}\
+                        </h3>\
+                        <div>\
+                            @{{ tweet.link.description }}\
+                        </div>\
+                    </div>\
+                </a>\
+            </div>\
+            <p class="list-group-item-text">@{{ tweet.created_at }}</p>\
+        </div>\
+      '
+    });
 
     new Vue({
         el : '#list-1',

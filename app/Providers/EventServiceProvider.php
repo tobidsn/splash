@@ -20,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\LinkCreated' => [
             'App\Listeners\NotifyLinkPreviewGenerator',
+            'App\Listeners\NotifyUrlShortener',
         ],
     ];
 
