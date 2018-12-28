@@ -16,6 +16,7 @@ class ProfileController extends Controller
 
     	$is_edit_profile = false;
      	$is_following = false;
+        $following_count = 0;
 
      	if (Auth::check()) {
 	    	$me = Auth::user();
@@ -52,8 +53,10 @@ class ProfileController extends Controller
 	    $user = User::where('username', $username)->firstOrFail();
 	    $followers_count =  $user->followers()->count();
 	    $list = $user->followers()->orderBy('username')->get();
-	    $is_edit_profile = false;
-	    $is_following = false;
+
+        $following_count = 0;
+        $is_edit_profile = false;
+        $is_following = false;
 
 	    if (Auth::check()) {
 	        $is_edit_profile = (Auth::id() == $user->id);
